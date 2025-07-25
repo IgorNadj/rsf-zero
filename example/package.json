@@ -9,6 +9,14 @@
   "dependencies": {
     "rsf-zero": "*"
   },
+  "devDependencies": {
+    "@tsconfig/vite-react": "^7.0.0",
+    "@types/node": "^24.1.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
   "packageManager": "yarn@4.6.0",
   "engines": {
     "node": ">=22.14.0"
