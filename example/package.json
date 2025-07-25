@@ -1,0 +1,10 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "packageManager": "yarn@4.6.0",
+  "engines": {
+    "node": ">=22.14.0"
+  }
+}
