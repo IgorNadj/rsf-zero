@@ -1,21 +1,17 @@
 import { createServer as createViteServer } from "vite";
 import fs from "fs";
 import viteReact from "@vitejs/plugin-react";
-import { transformRsfForClientVitePlugin } from "../transform/transformRsfForClientVitePlugin.ts";
 import type { Express } from "express";
-import type { RegisterServerAction } from "./actionHandler.ts";
 
 export const startVite = async ({
   app,
-  onServerActionFound,
 }: {
   app: Express;
-  onServerActionFound: RegisterServerAction;
 }) => {
   const vite = await createViteServer({
     server: { middlewareMode: true },
     appType: "custom",
-    plugins: [viteReact(), transformRsfForClientVitePlugin(onServerActionFound)],
+    // plugins: [viteReact(), transformRsfForClientPlugin(onServerActionFound)],
   });
 
   // Use vite's connect instance as middleware.

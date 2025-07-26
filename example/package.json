@@ -4,6 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "dev": "rsf-zero dev",
+    "build": "rsf-zero build",
     "start": "rsf-zero start"
   },
   "dependencies": {

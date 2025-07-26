@@ -24,7 +24,7 @@ After installing the package, add these scripts to your package.json:
 ...
 ```
 
-Then create a public/index.html:
+Then create an index.html:
 ```html
 <!doctype html>
 <html lang="en">

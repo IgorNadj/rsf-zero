@@ -1,20 +1,23 @@
 #!/usr/bin/env node
 
-import { startServer } from './server/startServer.ts';
+import { startDev } from './dev/startDev.ts';
+import { build } from "./build/build.js";
+import {start} from "./start/start.js";
 
 const args = process.argv.slice(2);
 const command = args[0];
 
-if (command === 'start') {
-  startServer();
+if (command === 'dev') {
+  await startDev();
+
+} else if (command === 'build') {
+  await build();
+
+} else if (command === 'start') {
+  await start();
+
 } else {
-  console.log('rsf-zero: Unknown command. Available commands: start');
+  console.log('rsf-zero: Unknown command. Available commands: dev, build, start');
   process.exit(1);
 }
 
-// TODO: next steps
-//
-//
-// - When loading server functions, instead of returning the file name, return a
-//   javascript reference to the function. That way we can call it directly instead
-//   importing it.
