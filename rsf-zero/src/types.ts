@@ -3,4 +3,9 @@ export type Action = {
   sourceFilePath: string;
 }
 
-export type ActionRegistry = Record<string, CallableFunction>;
+export type ActionHandler = {
+  actionName: string;
+  actionFn: CallableFunction;
+}
+
+export type ActionRegistry = Record<ActionHandler['actionName'], ActionHandler['actionFn']>;

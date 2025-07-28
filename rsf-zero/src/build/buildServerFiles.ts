@@ -6,11 +6,10 @@ import {
   flattenDiagnosticMessageText,
   ModuleKind,
 } from "typescript";
-import {Action} from "../types.js";
+import {Action} from "../types.ts";
 import md5 from "md5";
 import * as os from "node:os";
-import {extname} from "../utils/extname.js";
-import {asRelativeImport} from "../utils/asRelativeImport.js";
+import {asRelativeImport} from "../utils/asRelativeImport.ts";
 
 
 export const buildServerFiles = (actions: Action[], rootDir: string) => {
@@ -34,7 +33,9 @@ export const buildServerFiles = (actions: Action[], rootDir: string) => {
     };
 
     // Clear outDir before starting
-    fs.rmSync(serverOutDir, { recursive: true });
+    if (fs.existsSync(serverOutDir)) {
+      fs.rmSync(serverOutDir, { recursive: true });
+    }
 
     // Generate registry ts file
     const registryContent = generateActionRegistryTs(actions, generatedRegistryFilePath);

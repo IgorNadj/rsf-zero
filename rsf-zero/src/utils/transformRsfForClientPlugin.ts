@@ -1,8 +1,9 @@
 import * as swc from "@swc/core";
 import type { Plugin } from "vite";
-import { isServerActionFile } from "../utils/isServerActionFile.ts";
-import { getActionName } from "../utils/getActionName.ts";
-import {Action} from "../types.js";
+import { isServerActionFile } from "./isServerActionFile.ts";
+import { getActionName } from "./getActionName.ts";
+import {Action} from "../types.ts";
+import {debug} from "./debug.ts";
 
 
 /**
@@ -15,10 +16,14 @@ import {Action} from "../types.js";
 export const transformRsfForClientPlugin = (onActionFound: (action: Action) => void) : Plugin => {
   return {
     name: "vite-plugin-transform-rsf-for-client",
-    transform(code: string, id: string) { // id is filepath
+    transform(code, id, options) { // id is filepath
+      if (options?.ssr) {
+        // plugin is running in the 'dev' command, and loading the module for the server
+        return;
+      }
       if (isServerActionFile(id, code)) {
         const actionName = getActionName(id, code);
-        console.log("Transforming file for client: ", actionName, id);
+        debug("Transforming file for client: ", actionName, id);
         onActionFound({
           sourceFilePath: id,
           name: actionName,
@@ -41,7 +46,7 @@ import { stringify, parse } from 'superjson';
 const createActionCaller = (actionName) => {
   return async (...args) => {
     try {
-      console.log("caller called with args: " + args);
+      console.debug("caller called with args: " + args);
       const result = await fetch("/actions/" + actionName, {
         method: "POST",
         body: JSON.stringify( { serialisedFnArgs: stringify(args) }),
@@ -51,11 +56,10 @@ const createActionCaller = (actionName) => {
       });
       const parsedResult = await result.json();
       const deserialisedFnResult = parse(parsedResult.serialisedFnResult);
-      console.log("deserialisedFnResult: ", deserialisedFnResult);
+      console.debug("deserialisedFnResult: ", deserialisedFnResult);
       return deserialisedFnResult;
     } catch (e) {
-      console.error("Error calling action: ", actionName, e);
-      throw e;
+      throw new Error('Error calling action ' + actionName + ': ', e)
     }
   };
 };

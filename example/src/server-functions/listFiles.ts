@@ -24,7 +24,7 @@ export const listFiles = async (withLastModified = false): Promise<MyFileType[]>
         filename,
       })
     }
-  };
+  }
 
   return files;
 }

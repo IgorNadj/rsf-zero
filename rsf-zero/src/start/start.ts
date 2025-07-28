@@ -3,8 +3,8 @@ import express from "express";
 import morgan from "morgan";
 import "dotenv/config";
 import type { Express } from "express";
-import {actionHandler} from "./actionHandler.js";
-import {ActionRegistry} from "../types.js";
+import {createActionRoute} from "../utils/createActionRoute.ts";
+import {ActionRegistry} from "../types.ts";
 
 
 export const start = async () => {
@@ -21,19 +21,13 @@ export const start = async () => {
   app.use(express.static('dist/client/'));
 
   // Server
-
-  // load actionRegistry dynamically
+  // - create action route
+  const { set: setActionRegistry } = createActionRoute(app);
+  // - load actionRegistry dynamically
   const module: { actionRegistry: ActionRegistry} = await import(path.join(process.cwd(), 'dist/server/actionRegistry.js'));
   const { actionRegistry } = module;
-
-  // register actions as routes
-  const handle = actionHandler(app);
-  for (const [actionName, actionFn] of Object.entries(actionRegistry)) {
-    handle({
-      actionName,
-      actionFn,
-    })
-  }
+  // - register action handlers
+  setActionRegistry(actionRegistry);
 
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

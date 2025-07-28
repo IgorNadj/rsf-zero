@@ -1,8 +1,7 @@
-import {build as viteBuild, resolveConfig} from 'vite';
-import viteReact from '@vitejs/plugin-react';
-import {transformRsfForClientPlugin} from "./transformRsfForClientPlugin.js";
-import type { Action } from "../types.js";
-import {buildServerFiles} from "./buildServerFiles.js";
+import {resolveConfig} from 'vite';
+import type { Action } from "../types.ts";
+import {buildServerFiles} from "./buildServerFiles.ts";
+import {buildClientFiles} from "./buildClientFiles.ts";
 
 
 export const build = async () => {
@@ -15,24 +14,10 @@ export const build = async () => {
   const actions: Action[] = [];
 
   // Build client files
-  await viteBuild(
-    {
-      mode: 'production',
-      base: '/',
-      plugins: [
-        viteReact(),
-        transformRsfForClientPlugin(id => actions.push(id)),
-      ],
-      build: {
-        emptyOutDir: true,
-        outDir: rootDir + '/dist/client',
-      },
-    },
-  );
+  await buildClientFiles(rootDir, (action: Action) => actions.push(action));
 
   // Build server files
   buildServerFiles(actions, rootDir);
-
 }
 
 

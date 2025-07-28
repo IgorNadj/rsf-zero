@@ -1,5 +1,5 @@
 import * as swc from "@swc/core";
-import { collectExportNames } from "./collectExportNames.js";
+import { collectExportNames } from "./collectExportNames.ts";
 
 export const getActionName = (filePath: string, code: string) => {
   const module = swc.parseSync(code);

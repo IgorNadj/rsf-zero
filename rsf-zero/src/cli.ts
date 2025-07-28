@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 
-import { startDev } from './dev/startDev.ts';
-import { build } from "./build/build.js";
-import {start} from "./start/start.js";
+import { dev } from './dev/dev.ts';
+import { build } from "./build/build.ts";
+import { start } from "./start/start.ts";
 
 const args = process.argv.slice(2);
 const command = args[0];
 
 if (command === 'dev') {
-  await startDev();
+  await dev();
 
 } else if (command === 'build') {
   await build();

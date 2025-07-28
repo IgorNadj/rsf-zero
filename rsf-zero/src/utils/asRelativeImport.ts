@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import {extname} from "./extname.js";
+import {extname} from "./extname.ts";
 
 /**
  * Converts any import e.g. absolute path to a relative one.
