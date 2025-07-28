@@ -15,8 +15,6 @@ export const start = async () => {
 
   app.use(express.json());
 
-  console.log('process.cwd()', process.cwd());
-
   // Client
   const staticPath = path.join(process.cwd(), 'dist/client/');
   console.log('Serving static files from:', staticPath);
@@ -25,14 +23,11 @@ export const start = async () => {
   // Server
 
   // load actionRegistry dynamically
-
-  const module: { actionRegistry: ActionRegistry} = await import(path.join(process.cwd(), 'dist/server/generated/registry.js'));
+  const module: { actionRegistry: ActionRegistry} = await import(path.join(process.cwd(), 'dist/server/actionRegistry.js'));
   const { actionRegistry } = module;
-  console.log('actionRegistry', actionRegistry);
 
   // register actions as routes
   const handle = actionHandler(app);
-  console.log('Registering server actions', Object.keys(actionRegistry));
   for (const [actionName, actionFn] of Object.entries(actionRegistry)) {
     handle({
       actionName,
@@ -41,7 +36,7 @@ export const start = async () => {
   }
 
   app.listen(port, () => {
-    console.log(`Server is running on portt ${port}`);
+    console.log(`Server is running at http://localhost:${port}`);
   });
 }
 
