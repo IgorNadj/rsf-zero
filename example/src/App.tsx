@@ -1,8 +1,11 @@
 import { useListFiles } from "./hooks/useListFiles.ts";
+import { useMemoryUsage } from "./hooks/useMemoryUsage.ts";
 
 export const App = () => {
 
   const files = useListFiles(true);
+
+  const memoryUsage = useMemoryUsage();
 
   return (
     <>
@@ -20,6 +23,12 @@ export const App = () => {
           </li>
         ))}
       </ul>
+
+      <hr />
+
+      Server memory usage:
+
+      { memoryUsage ? ` ${memoryUsage} MB` : ' Loading...' }
     </>
   );
 };
