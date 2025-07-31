@@ -1,5 +1,5 @@
 import type { Plugin } from "vite";
-import { isServerActionFile } from "../utils/isServerActionFile.ts";
+import { isTopLevelRsfFile } from "../utils/isTopLevelRsfFile.ts";
 import { getActionName } from "../utils/getActionName.ts";
 import {Action} from "../types.ts";
 import {debug} from "../utils/debug.ts";
