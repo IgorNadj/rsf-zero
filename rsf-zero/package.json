@@ -26,6 +26,12 @@
   "peerDependencies": {
     "react": "^19.0.0"
   },
+  "exports": {
+    "./client": {
+      "types": "./dist/lib/client.d.ts",
+      "default": "./dist/lib/client.js"
+    }
+  },
   "packageManager": "yarn@4.6.0",
   "engines": {
     "node": ">=22.14.0"

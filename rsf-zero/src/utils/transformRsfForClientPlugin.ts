@@ -35,39 +35,12 @@ export const transformRsfForClientPlugin = (onActionFound: (action: Action) => v
   };
 }
 
-
 const transform =
   (
     actionName: string,
   ) => {
-  let newCode = `
-import { stringify, parse } from 'superjson';  
-  
-const createActionCaller = (actionName) => {
-  return async (...args) => {
-    try {
-      console.debug("caller called with args: " + args);
-      const result = await fetch("/actions/" + actionName, {
-        method: "POST",
-        body: JSON.stringify( { serialisedFnArgs: stringify(args) }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const parsedResult = await result.json();
-      const deserialisedFnResult = parse(parsedResult.serialisedFnResult);
-      console.debug("deserialisedFnResult: ", deserialisedFnResult);
-      return deserialisedFnResult;
-    } catch (e) {
-      throw new Error('Error calling action ' + actionName + ': ', e)
-    }
-  };
-};
-
+  return `
+import { createActionCaller } from "rsf-zero/client";
 export const ${actionName} = createActionCaller('${actionName}');
 `;
-  return swc.transformSync(newCode, {
-    jsc: { target: "esnext" },
-    sourceMaps: true,
-  });
 };
