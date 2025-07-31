@@ -1,6 +1,6 @@
 import {build as viteBuild} from "vite";
 import viteReact from "@vitejs/plugin-react";
-import {transformRsfForClientPlugin} from "../utils/transformRsfForClientPlugin.ts";
+import {transformRsfForClientPlugin} from "../transform/transformRsfForClientPlugin.ts";
 import {Action} from "../types.ts";
 
 

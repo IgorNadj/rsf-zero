@@ -1,9 +1,8 @@
-import * as swc from "@swc/core";
 import type { Plugin } from "vite";
-import { isServerActionFile } from "./isServerActionFile.ts";
-import { getActionName } from "./getActionName.ts";
+import { isServerActionFile } from "../utils/isServerActionFile.ts";
+import { getActionName } from "../utils/getActionName.ts";
 import {Action} from "../types.ts";
-import {debug} from "./debug.ts";
+import {debug} from "../utils/debug.ts";
 
 
 /**
