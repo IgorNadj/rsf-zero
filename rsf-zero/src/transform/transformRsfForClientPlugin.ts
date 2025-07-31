@@ -1,6 +1,7 @@
 import type { Plugin } from "vite";
 import { isTopLevelRsfFile } from "../utils/isTopLevelRsfFile.ts";
 import { getActionName } from "../utils/getActionName.ts";
+import { transformTopLevelRsf } from "./transformTopLevelRsf.ts";
 import {Action} from "../types.ts";
 import {debug} from "../utils/debug.ts";
 
@@ -20,26 +21,16 @@ export const transformRsfForClientPlugin = (onActionFound: (action: Action) => v
         // plugin is running in the 'dev' command, and loading the module for the server
         return;
       }
-      if (isServerActionFile(id, code)) {
+      if (isTopLevelRsfFile(id, code)) {
         const actionName = getActionName(id, code);
         debug("Transforming file for client: ", actionName, id);
         onActionFound({
           sourceFilePath: id,
           name: actionName,
         });
-        return transform(actionName);
+        return transformTopLevelRsf(actionName);
       }
       return;
     },
   };
 }
-
-const transform =
-  (
-    actionName: string,
-  ) => {
-  return `
-import { createActionCaller } from "rsf-zero/client";
-export const ${actionName} = createActionCaller('${actionName}');
-`;
-};
