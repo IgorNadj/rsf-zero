@@ -1,7 +1,7 @@
 import {resolveConfig} from 'vite';
-import type { Action } from "../../types.ts";
-import {buildServerFiles} from "./buildServerFiles.ts";
-import {buildClientFiles} from "./buildClientFiles.ts";
+import type { Action } from "../types.ts";
+import {buildServerFiles} from "./build/buildServerFiles.ts";
+import {buildClientFiles} from "./build/buildClientFiles.ts";
 
 
 export const build = async () => {
