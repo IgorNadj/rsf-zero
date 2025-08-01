@@ -4,7 +4,7 @@
 /**
  * Returns memory usage in MB
  */
-export const memoryUsage = async (): Promise<number> => {
+export const getMemoryUsage = async (): Promise<number> => {
   const memoryUsageInBytes = process.memoryUsage();
   return Math.round(memoryUsageInBytes.rss / 1000000);
 }
@@ -16,7 +16,7 @@ export type HeapMemoryUsage = {
   used: number,
   total: number,
 }
-export const heapMemoryUsage = async (): Promise<HeapMemoryUsage> => {
+export const getHeapUsage = async (): Promise<HeapMemoryUsage> => {
   const memoryUsageInBytes = process.memoryUsage();
   return {
     used: Math.round(memoryUsageInBytes.heapUsed / 1000000),
