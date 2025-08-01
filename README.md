@@ -1,6 +1,6 @@
 # RSF Zero
 
-A minimal micro-framework for RSF applications.
+A minimal micro-framework with React Server Functions support.
 
 ## Quick Start
 
@@ -8,11 +8,7 @@ TODO `npm create rsf-zero@latest`
 
 Or, add it to an [existing project](rsf-zero/README.md).
 
-## Demo
-
-TODO
-
-## Introduction to server functions
+## Quick intro to Server Functions
 RSF ([React Server Functions](https://react.dev/reference/rsc/server-functions)) allow you to mark functions to run on the server:
 
 ```tsx
@@ -28,21 +24,12 @@ function EmptyNote () {
 }
 ```
 
-Note: **Server Functions** are a separate concept from [Server Components](https://react.dev/reference/rsc/server-components) (RSC).
-Server Components are components which are rendered on the server and passed to the client.
-Server Functions can be used inside Server Components, but this is not a requirement.
-
-Server Functions can be called by client components directly, which is what **RSF-Zero** supports.
-
-**RSF Zero** is a minimal implementation. It does what it needs to and nothing else 🕊️
-
 ### Top-level 'use server'
 
-Any file with a `'use server'` directive at the top of the file marks it to be run on the server. 
-Any exported function is a server function which will run on the server.
+Any exported function in a file which starts with `'use server'` is a Server Function which will run on the server.
 
 ```tsx
-'use server'
+'use server';
 
 // Server function
 export const addComment = async (comment: Comment) => {
@@ -64,14 +51,17 @@ TODO
 ### More examples
 See [/example/src/App.tsx](example/src/App.tsx).
 
+### What about Server Components?
+
+[Server Components](https://react.dev/reference/rsc/server-components) (RSC) are components which are rendered on the server (server side rendering or SSR) and passed to the client.
+They can be useful for a faster initial page load. 
+
+As great as SSR is, it comes with drawbacks. Whether you need it or not is a question of tradeoffs.
+
 ## Philosophy
 
-### Minimal
+**RSF Zero** is designed to be a dead simple micro-framework.
 
-Add whatever you want on top, nothing bundled that you don't use.
-
-### Conceptually simple
-
-Add `'use server'` to run something on the server, and you're done. Nothing new to learn.
-
-Spend the spare time on a nice coffee or looking at a bird.
+🕊 **Minimal**: Add whatever you want on top, nothing bundled that you don't use\
+🕊 **Simple**: Add `'use server'` to run something on the server, and you're done, nothing new to learn\
+🕊️ **Done**: Instead, spend your spare time sipping a nice coffee or looking at a bird
