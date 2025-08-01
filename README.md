@@ -4,10 +4,7 @@ A minimal micro-framework for RSF applications.
 
 ## Quick Start
 
-`npx @rsf-zero/create`
-
-Then run `yarn dev` | `pnpm run dev` | `npm run dev`
-
+TODO `npm create rsf-zero@latest`
 
 Or, add it to an [existing project](rsf-zero/README.md).
 
