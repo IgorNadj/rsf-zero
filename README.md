@@ -61,7 +61,8 @@ export const AddCommentButton = (comment: Comment) =>
 
 TODO
 
-
+### More examples
+See [/example/src/App.tsx](example/src/App.tsx).
 
 ## Philosophy
 
