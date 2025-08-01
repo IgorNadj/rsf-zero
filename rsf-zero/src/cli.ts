@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import { dev } from './dev/dev.ts';
-import { build } from "./build/build.ts";
-import { start } from "./start/start.ts";
+import { dev } from './cli/dev/dev.ts';
+import { build } from "./cli/build/build.ts";
+import { start } from "./cli/start/start.ts";
 
 const args = process.argv.slice(2);
 const command = args[0];

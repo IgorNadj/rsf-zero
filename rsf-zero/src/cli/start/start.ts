@@ -3,8 +3,8 @@ import express from "express";
 import morgan from "morgan";
 import "dotenv/config";
 import type { Express } from "express";
-import {createActionRoute} from "../utils/createActionRoute.ts";
-import {ActionRegistry} from "../types.ts";
+import {createActionRoute} from "../../utils/createActionRoute.ts";
+import {ActionRegistry} from "../../types.ts";
 
 
 export const start = async () => {

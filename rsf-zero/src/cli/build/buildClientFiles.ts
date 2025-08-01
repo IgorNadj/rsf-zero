@@ -1,9 +1,9 @@
 import path from "path";
 import {build as viteBuild} from "vite";
 import viteReact from "@vitejs/plugin-react";
-import {transformRsfForClientPlugin} from "../transform/client/transformRsfForClientPlugin.ts";
-import {Action} from "../types.ts";
-import {debug} from "../utils/debug.ts";
+import {transformRsfForClientPlugin} from "../../transform/client/transformRsfForClientPlugin.ts";
+import {Action} from "../../types.ts";
+import {debug} from "../../utils/debug.ts";
 
 
 export const buildClientFiles = async (rootDir: string, onActionFound: (action: Action) => {}) => {

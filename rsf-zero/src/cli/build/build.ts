@@ -1,5 +1,5 @@
 import {resolveConfig} from 'vite';
-import type { Action } from "../types.ts";
+import type { Action } from "../../types.ts";
 import {buildServerFiles} from "./buildServerFiles.ts";
 import {buildClientFiles} from "./buildClientFiles.ts";
 

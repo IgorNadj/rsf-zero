@@ -3,9 +3,9 @@ import morgan from "morgan";
 import "dotenv/config";
 import { startVite } from "./startVite.ts";
 import type { Express } from "express";
-import {Action} from "../types.ts";
-import {createActionRoute} from "../utils/createActionRoute.ts";
-import {debug} from "../utils/debug.ts";
+import {Action} from "../../types.ts";
+import {createActionRoute} from "../../utils/createActionRoute.ts";
+import {debug} from "../../utils/debug.ts";
 
 export const dev = async () => {
   const app: Express = express();

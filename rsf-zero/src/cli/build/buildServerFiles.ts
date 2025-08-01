@@ -6,15 +6,15 @@ import {
   flattenDiagnosticMessageText,
   ModuleKind,
 } from "typescript";
-import {Action} from "../types.ts";
+import {Action} from "../../types.ts";
 import md5 from "md5";
 import * as os from "node:os";
 import {
   generateActionRegistryJs,
   generateActionRegistryTs,
   generateEmptyActionRegistryJs
-} from "../transform/server/generateActionRegistry.ts";
-import {debug} from "../utils/debug.ts";
+} from "../../transform/server/generateActionRegistry.ts";
+import {debug} from "../../utils/debug.ts";
 
 
 export const buildServerFiles = (actions: Action[], rootDir: string) => {
