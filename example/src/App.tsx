@@ -1,11 +1,19 @@
 import { useListFiles } from "./hooks/useListFiles.ts";
 import { useMemoryUsage } from "./hooks/useMemoryUsage.ts";
+import {type HeapMemoryUsage, heapMemoryUsage} from "./server-functions/memoryUsage.ts";
+import {useEffect, useState} from "react";
 
 export const App = () => {
 
   const files = useListFiles(true);
 
   const memoryUsage = useMemoryUsage();
+
+  const [heapUsage, setHeapUsage] = useState<HeapMemoryUsage | null>(null);
+  useEffect(() => {
+    heapMemoryUsage()
+      .then(usage => setHeapUsage(usage))
+  }, [])
 
   return (
     <>
@@ -26,9 +34,20 @@ export const App = () => {
 
       <hr />
 
-      Server memory usage:
+      <div>
+        Server memory usage:
+        { memoryUsage ? ` ${memoryUsage} MB` : ' Loading...' }
+      </div>
 
-      { memoryUsage ? ` ${memoryUsage} MB` : ' Loading...' }
+      <div>
+        Heap memory usage:
+        { heapUsage && (
+          <>
+            {heapUsage.used} / {heapUsage.total} MB
+          </>
+        )}
+      </div>
+
     </>
   );
 };
