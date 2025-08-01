@@ -9,115 +9,107 @@ import {
 import {Action} from "../types.ts";
 import md5 from "md5";
 import * as os from "node:os";
-import {asRelativeImport} from "../utils/asRelativeImport.ts";
+import {
+  generateActionRegistryJs,
+  generateActionRegistryTs,
+  generateEmptyActionRegistryJs
+} from "../transform/server/generateActionRegistry.ts";
+import {debug} from "../utils/debug.ts";
 
 
 export const buildServerFiles = (actions: Action[], rootDir: string) => {
+  const serverOutDir = path.join(rootDir, 'dist/server');
+  const srcDir = path.join(rootDir, 'src');
+
+  // Clear /dist/server before starting
+  if (fs.existsSync(serverOutDir)) {
+    fs.rmSync(serverOutDir, { recursive: true });
+    fs.mkdirSync(serverOutDir, { recursive: true });
+  }
+
+  const actionRegistryJsPath = path.join(serverOutDir, 'actionRegistry.js');
+
   if (actions.length > 0) {
-    const serverOutDir = path.join(rootDir, 'dist/server');
-    const srcDir = path.join(rootDir, 'src');
+    // Compile and output all standard files, e.g. those which are imported by the user's actions
+    buildStandardFiles(actions, serverOutDir, srcDir);
 
-    // Create tmp directory
-    const tmpDir = os.tmpdir();
-    const projectHash = md5(process.cwd());
-    const generatedRegistryFilePath = path.join(tmpDir, `rsf-zero-registry-${projectHash}.ts`);
+    // Then generate a registry file which the server will load
+    buildRegistryFile(actions, srcDir, actionRegistryJsPath);
+  } else {
+    // Create an empty registry file
+    buildEmptyRegistryFile(actionRegistryJsPath);
+  }
+  debug(`Built server with ${actions.length} actions to ${serverOutDir}.`);
+}
 
-    const compilerOptions: CompilerOptions = {
-      strict: true,
-      module: ModuleKind.ESNext,
-      allowSyntheticDefaultImports: true,
-      skipLibCheck: true,
-      rewriteRelativeImportExtensions: true,
-      outDir: serverOutDir,
-      rootDir: srcDir,
-    };
 
-    // Clear outDir before starting
-    if (fs.existsSync(serverOutDir)) {
-      fs.rmSync(serverOutDir, { recursive: true });
-    }
+const buildStandardFiles = (actions: Action[], serverOutDir: string, srcDir: string) => {
+  // Create tmp directory
+  const tmpDir = os.tmpdir();
+  const projectHash = md5(process.cwd());
+  const generatedRegistryFilePath = path.join(tmpDir, `rsf-zero-registry-${projectHash}.ts`);
 
-    // Generate registry ts file
-    const registryContent = generateActionRegistryTs(actions, generatedRegistryFilePath);
-    fs.writeFileSync(generatedRegistryFilePath, registryContent);
+  const compilerOptions: CompilerOptions = {
+    strict: true,
+    module: ModuleKind.ESNext,
+    allowSyntheticDefaultImports: true,
+    skipLibCheck: true,
+    rewriteRelativeImportExtensions: true,
+    outDir: serverOutDir,
+    rootDir: srcDir,
+  };
 
-    // Create TypeScript program with the temporary file as entry point
-    const program = createProgram([generatedRegistryFilePath], compilerOptions);
+  // Generate registry ts file
+  const registryContent = generateActionRegistryTs(actions, generatedRegistryFilePath);
+  fs.writeFileSync(generatedRegistryFilePath, registryContent);
+  debug('wrote action registry ts file to: ' + generatedRegistryFilePath)
 
-    // Emit the compiled files
-    const emitResult = program.emit();
+  // Create TypeScript program with the temporary file as entry point
+  const program = createProgram([generatedRegistryFilePath], compilerOptions);
 
-    // Check for compilation errors
-    const allDiagnostics = program.getSemanticDiagnostics()
-      .concat(program.getSyntacticDiagnostics())
-      .concat(emitResult.diagnostics);
+  // Emit the compiled files
+  const emitResult = program.emit();
+  debug('Built server files to: ' + serverOutDir);
 
-    if (allDiagnostics.length > 0) {
-      allDiagnostics.forEach(diagnostic => {
-        if (diagnostic.file) {
-          const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!);
-          const message = flattenDiagnosticMessageText(diagnostic.messageText, '\n');
-          console.error(`${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`);
-        } else {
-          console.error(flattenDiagnosticMessageText(diagnostic.messageText, '\n'));
-        }
-      });
+  // Check for compilation errors
+  const allDiagnostics = program.getSemanticDiagnostics()
+    .concat(program.getSyntacticDiagnostics())
+    .concat(emitResult.diagnostics);
 
-      if (emitResult.emitSkipped) {
-        throw new Error('TypeScript compilation failed');
+  if (allDiagnostics.length > 0) {
+    allDiagnostics.forEach(diagnostic => {
+      if (diagnostic.file) {
+        const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start!);
+        const message = flattenDiagnosticMessageText(diagnostic.messageText, '\n');
+        console.error(`${diagnostic.file.fileName} (${line + 1},${character + 1}): ${message}`);
+      } else {
+        console.error(flattenDiagnosticMessageText(diagnostic.messageText, '\n'));
       }
+    });
+
+    if (emitResult.emitSkipped) {
+      throw new Error('TypeScript compilation failed');
     }
-
-    // Finally, create a js version of the generated registry file
-    // - we do this because the ts version is in /tmp as not not pollute the user's app src
-    //   - the other option being to place the ts version in the user's src/
-    // - it's a simple file, so we can make it manually without needing to use tsc
-    fs.writeFileSync(path.join(serverOutDir, 'actionRegistry.js'), generateActionRegistryJs(actions, srcDir));
-
-    console.log(`RSF-Zero build with ${actions.length} action${actions.length === 1 ? '' : 's'} success. Start with rsf-zero start.`);
   }
 }
 
-/**
- * Create a typescript file that imports all actions. This can then be passed to a tsc to be processed into dist js files.
- */
-function generateActionRegistryTs(actions: Action[], registryPath: string): string {
-  const actionsWithRelativePaths = actions.map(action => {
-    return {
-      ...action,
-      relativeSourceFilePath: asRelativeImport(action.sourceFilePath, registryPath),
-    };
-  })
+const buildRegistryFile = (actions: Action[], srcDir: string, actionRegistryJsPath: string) => {
+  // This file is what the server loads. It imports all the user's actions.
+  // It also exports a map of the action id to the action function.
+  //
+  // There are two ways to build this file, one is to place it in the user's src/ directory
+  // and use tsc to compile it and output it into dist. The other is to directly write it to
+  // dist as a javascript file.
+  //
+  // The first way means we pollute the user's src/ directory, which I don't like, so instead
+  // we do the direct option. A bit less ideal in this codebase, but a nicer DevEx for the user.
 
-  return `// Generated by RSF Zero, do not modify
-
-${actionsWithRelativePaths.map(action => `import { ${action.name} } from '${action.relativeSourceFilePath}';`).join('\n')}
-
-export const actionRegistry = {
-  ${actions.map(action => `"${action.name}": ${action.name}`).join('\n')}
-};
-`;
+  fs.writeFileSync(actionRegistryJsPath, generateActionRegistryJs(actions, srcDir));
+  debug('wrote action registry js file to: ' + actionRegistryJsPath)
 }
 
-
-
-/**
- * Create a javascript file that imports all actions. This is used by the start command to load action functions when the server starts.
- */
-function generateActionRegistryJs(actions: Action[], relativeToDir: string): string {
-  const actionsWithRelativePaths = actions.map(action => {
-    return {
-      ...action,
-      relativeSourceFilePath: asRelativeImport(action.sourceFilePath, relativeToDir, '.js'),
-    };
-  })
-
-  return `// Generated by RSF Zero, do not modify
-
-${actionsWithRelativePaths.map(action => `import { ${action.name} } from '${action.relativeSourceFilePath}';`).join('\n')}
-
-export const actionRegistry = {
-  ${actions.map(action => `"${action.name}": ${action.name}`).join('\n')}
-};
-`;
+const buildEmptyRegistryFile = (actionRegistryJsPath: string)=> {
+  // We still need an empty file for the server
+  fs.writeFileSync(actionRegistryJsPath, generateEmptyActionRegistryJs());
+  debug('wrote empty action registry js file to: ' + actionRegistryJsPath)
 }

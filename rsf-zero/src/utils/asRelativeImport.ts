@@ -1,6 +1,5 @@
 import fs from "fs";
 import path from "path";
-import {extname} from "./extname.ts";
 
 /**
  * Converts any import e.g. absolute path to a relative one.
@@ -18,12 +17,6 @@ export const asRelativeImport = (targetPath: string, relativeToPath: string, rep
 
   const relative = path.relative(relativeToDirPath, targetPath);
 
-  const withLeadingDotSlash = relative.startsWith('.') ? relative : './' + relative;
-
-  if (replaceExtWith) {
-    const originalExt = extname(targetPath);
-    return withLeadingDotSlash.slice(0, -originalExt.length) + replaceExtWith;
-  }
-
-  return withLeadingDotSlash;
+  // Add leading dot slash
+  return relative.startsWith('.') ? relative : './' + relative;
 }

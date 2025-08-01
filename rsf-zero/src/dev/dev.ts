@@ -20,10 +20,10 @@ export const dev = async () => {
   const { add: addToActionRegistry } = createActionRoute(app);
   // - in dev mode, Vite loads files on the fly, so we need to register actions handlers on the fly too
   const onActionFound = async (action: Action) => {
-    debug("Loading action handler: " + action.name + " at " + action.sourceFilePath);
+    debug("Loading action handler: " + action.id);
     const module = await vite.ssrLoadModule(`${action.sourceFilePath}`);
     const actionFn = module[action.name];
-    addToActionRegistry({ actionName: action.name, actionFn });
+    addToActionRegistry(action.id, actionFn );
     debug("Loaded action handler: " + action.name);
   }
 

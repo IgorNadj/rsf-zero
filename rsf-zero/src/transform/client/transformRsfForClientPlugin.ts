@@ -1,6 +1,6 @@
 import type { Plugin } from "vite";
 import { transformTopLevelRsf } from "./transformTopLevelRsf.ts";
-import {Action} from "../types.ts";
+import {Action} from "../../types.ts";
 
 
 /**

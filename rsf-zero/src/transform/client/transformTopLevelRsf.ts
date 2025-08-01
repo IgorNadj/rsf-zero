@@ -1,7 +1,9 @@
 import * as swc from "@swc/core";
-import {isTopLevelRsfFile} from "../utils/isTopLevelRsfFile.ts";
-import {debug} from "../utils/debug.ts";
-import {Action} from "../types.ts";
+import {isTopLevelRsfFile} from "../../utils/isTopLevelRsfFile.ts";
+import {debug} from "../../utils/debug.ts";
+import {Action} from "../../types.ts";
+import md5 from "md5";
+import {getActionId} from "../../utils/getActionId.js";
 
 /**
  * Given a file that starts with 'use server', return a transformed client version of that file.
@@ -52,17 +54,19 @@ export const transformTopLevelRsf =
 import { createActionCaller } from 'rsf-zero/client';`;
 
     for (const exportName of exportNames) {
+      const actionId = getActionId(id, exportName);
       onActionFound({
+        id: actionId,
         sourceFilePath: id,
         name: exportName,
-      })
+      });
 
       if (exportName === 'default') {
         newCode += `
-export default createActionCaller('${id}#${exportName}');`;
+export default createActionCaller('${actionId}');`;
       } else {
         newCode += `
-export const ${exportName} = createActionCaller('${id}#${exportName}');`;
+export const ${exportName} = createActionCaller('${actionId}');`;
       }
     }
 

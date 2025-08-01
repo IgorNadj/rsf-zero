@@ -1,32 +1,32 @@
 import type { Express } from "express";
 import {parse, stringify} from "superjson";
-import {ActionHandler, ActionRegistry} from "../types.ts";
+import {Action, ActionRegistry} from "../types.ts";
 import {debug} from "./debug.ts";
 
 type ReturnType = {
-  add: (actionHandler: ActionHandler) => void;
+  add: (actionId: Action['id'], actionFn: CallableFunction) => void;
   set: (actionRegistry: ActionRegistry) => void;
 }
 
 export const createActionRoute = (app: Express): ReturnType => {
-  let actionRegistry: Record<ActionHandler['actionName'], ActionHandler['actionFn']> = {};
+  let actionRegistry: ActionRegistry = {};
 
-  const add = (actionHandler: ActionHandler) => {
-    debug("Registering server action: ", actionHandler.actionName);
-    actionRegistry[actionHandler.actionName] = actionHandler.actionFn;
+  const add = (actionId: Action['id'], actionFn: CallableFunction) => {
+    debug("Registering server action: " + actionId);
+    actionRegistry[actionId] = actionFn;
   }
 
   const set = (newActionRegistry: ActionRegistry) => {
     actionRegistry = newActionRegistry;
   }
 
-  app.post("/actions/:actionName", async (req, res) => {
-    const actionName = req.params.actionName;
-    debug("Received request for action: ", actionName);
+  app.post("/actions/:actionId", async (req, res) => {
+    const { actionId } = req.params;
+    debug("Received request for action: ", actionId);
 
-    const actionFn = actionRegistry[actionName];
+    const actionFn = actionRegistry[actionId];
     if (!actionFn) {
-      throw new Error('No action handler found for action: ' + actionName);
+      throw new Error('Server does not have this action registered: ' + actionId);
     }
 
     debug("Request body: ", req.body);
@@ -36,10 +36,10 @@ export const createActionRoute = (app: Express): ReturnType => {
 
     // Call the action function
     debug("Request fn args: ", fnArgs);
-    const result = await callActionFn(actionName, actionFn, fnArgs);
+    const actionFnReturnValue = await callActionFn(actionId, actionFn, fnArgs);
 
     // Serialise the result
-    const serialisedFnResult = serialiseReturnValue(actionName, result);
+    const serialisedFnResult = serialiseReturnValue(actionId, actionFnReturnValue);
 
     res.json({ serialisedFnResult });
   });
@@ -50,24 +50,24 @@ export const createActionRoute = (app: Express): ReturnType => {
   };
 };
 
-const callActionFn = async (actionName: string, actionFn: CallableFunction, fnArgs: any[]): Promise<any> => {
-  debug("Calling action: ", actionName, fnArgs);
+const callActionFn = async (actionId: string, actionFn: CallableFunction, fnArgs: any[]): Promise<any> => {
+  debug('Calling action: ' + actionId + ' with fn: '+ actionFn + ' with args: ', fnArgs);
   try {
-    const result = await actionFn(...fnArgs);
-    debug("Result: ", result);
-    return result;
+    const actionFnReturnValue = await actionFn(...fnArgs);
+    debug('Action ' + actionId + ' return value: ', actionFnReturnValue);
+    return actionFnReturnValue;
   } catch (e) {
-    throw new Error('Error thrown in action handler ' + actionName + ': ' + e)
+    throw new Error('Error thrown in action handler ' + actionId + ': ' + e)
   }
 }
 
-const serialiseReturnValue = (actionName: string, value: any): string => {
+const serialiseReturnValue = (actionId: string, value: any): string => {
   try {
     const serialised = stringify(value);
-    debug("serialisedFnResult: ", serialised);
+    debug('Serialised action ' + actionId + ' return value: ', serialised);
     return serialised;
 
   } catch (e) {
-    throw new Error('Error serialising ' + actionName + ' action result ' + e)
+    throw new Error('Error serialising ' + actionId + ' return value: ' + e)
   }
 }

@@ -101,3 +101,6 @@ Action function calls are serialised and deserialised between client and server.
 
 RSF Zero uses [superjson](https://github.com/flightcontrolhq/superjson) under the hood, and most types are supported.
 Most likely you will never run into issues with this, but it's worth noting.
+
+### Verbose logging
+Run commands with `NODE_DEBUG=rsf-zero` e.g. `NODE_DEBUG=rsf-zero yarn build`
