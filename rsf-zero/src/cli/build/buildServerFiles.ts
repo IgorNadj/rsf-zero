@@ -14,7 +14,7 @@ import {
   generateActionRegistryTs,
   generateEmptyActionRegistryJs
 } from "../../transform/server/generateActionRegistry.ts";
-import {debug} from "../../utils/debug.ts";
+import {debug} from "../../debug.ts";
 
 
 export const buildServerFiles = (actions: Action[], rootDir: string) => {

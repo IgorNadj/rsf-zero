@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import {parse, stringify} from "superjson";
 import {Action, ActionRegistry} from "../../types.ts";
-import {debug} from "../../utils/debug.ts";
+import {debug} from "../../debug.ts";
 
 type ReturnType = {
   add: (actionId: Action['id'], actionFn: CallableFunction) => void;
