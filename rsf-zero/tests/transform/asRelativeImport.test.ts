@@ -1,5 +1,5 @@
 import { describe, expect, test, vi, beforeEach, afterEach } from 'vitest';
-import { asRelativeImport } from '../../src/utils/asRelativeImport';
+import { asRelativeImport } from '../../src/transform/asRelativeImport';
 
 // mock fs.lstatSync because these files don't actually exist
 vi.mock('fs', () => ({

@@ -1,6 +1,6 @@
 import {Action} from "../../types.ts";
-import {asRelativeImport} from "../../utils/asRelativeImport.ts";
-import {replaceFileExt} from "../../utils/replaceFileExt.js";
+import {asRelativeImport} from "../asRelativeImport.ts";
+import {replaceFileExt} from "../replaceFileExt.ts";
 
 
 /**

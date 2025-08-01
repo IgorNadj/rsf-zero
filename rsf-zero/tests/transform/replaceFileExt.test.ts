@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import {replaceFileExt} from "../../src/utils/replaceFileExt";
+import {replaceFileExt} from "../../src/transform/replaceFileExt";
 
 describe('replaceFileExt', () => {
   test('replaces extension', () => {

@@ -1,4 +1,4 @@
-import {extname} from "./extname.js";
+import {extname} from "./extname.ts";
 
 
 export const replaceFileExt = (path: string, newExt: string) => {

@@ -1,9 +1,8 @@
 import * as swc from "@swc/core";
-import {isTopLevelRsfFile} from "../../utils/isTopLevelRsfFile.ts";
+import {isTopLevelRsfFile} from "../isTopLevelRsfFile.ts";
 import {debug} from "../../utils/debug.ts";
 import {Action} from "../../types.ts";
-import md5 from "md5";
-import {getActionId} from "../../utils/getActionId.js";
+import {getActionId} from "../getActionId.ts";
 
 /**
  * Given a file that starts with 'use server', return a transformed client version of that file.

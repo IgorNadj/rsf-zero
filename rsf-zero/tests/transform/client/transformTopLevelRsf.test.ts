@@ -2,7 +2,7 @@ import { describe, expect, test } from 'vitest';
 import * as swc from '@swc/core';
 import { transformTopLevelRsf } from "../../../src/transform/client/transformTopLevelRsf";
 import {Action} from "../../../src/types";
-import {getActionId} from "../../../src/utils/getActionId";
+import {getActionId} from "../../../src/transform/getActionId";
 
 const compileTsx = (code: string) =>
   swc.transformSync(code, {
