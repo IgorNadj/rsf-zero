@@ -7,7 +7,7 @@ import {
 import { Action } from '../../../src/types';
 
 // Mock asRelativeImport function with a very simple implementation
-vi.mock('../../../src/utils/asRelativeImport.ts', () => ({
+vi.mock('../../../src/transform/asRelativeImport.ts', () => ({
   asRelativeImport: vi.fn((targetPath, relativeToPath) => {
     return `/mocked/import/---${relativeToPath}---${targetPath}`;
   })
