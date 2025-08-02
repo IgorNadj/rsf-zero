@@ -60,7 +60,7 @@ const buildStandardFiles = (actions: Action[], serverOutDir: string, srcDir: str
   };
 
   // Generate registry ts file
-  const registryContent = generateActionRegistryTs(actions, generatedRegistryFilePath);
+  const registryContent = generateActionRegistryTs(actions, tmpDir);
   fs.writeFileSync(generatedRegistryFilePath, registryContent);
   debug('wrote action registry ts file to: ' + generatedRegistryFilePath)
 
