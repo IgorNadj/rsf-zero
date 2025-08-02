@@ -12,7 +12,7 @@ pnpm add rsf-zero
 npm install rsf-zero
 ```
 
-Then follow [setup](rsf-zero/README.md#Setup).
+Then follow [setup](https://github.com/IgorNadj/rsf-zero/tree/main/docs/setup.md#Setup).
 
 ## Quick intro to Server Functions
 React Server Functions allow you to mark functions to run on the server:
@@ -34,7 +34,7 @@ export const AddCommentButton = (comment: Comment) =>
 ```
 
 ### More examples
-See [/example/src/App.tsx](example/src/App.tsx).
+See [/example/src/App.tsx](https://github.com/IgorNadj/rsf-zero/tree/main/example/src/App.tsx).
 
 ### Reference Docs
 - [React Server Functions](https://react.dev/reference/rsc/server-functions)
