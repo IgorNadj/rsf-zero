@@ -1,16 +1,8 @@
 # rsf-zero
 
-## Installation
+## Setup
 
-```bash
-yarn add rsf-zero
-# or
-pnpm add rsf-zero
-# or
-npm install rsf-zero
-```
-
-After installing the package, add these scripts to your **package.json**:
+Add these scripts to your **package.json**:
 
 ```
 ...
