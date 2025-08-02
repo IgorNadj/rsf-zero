@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { listFiles } from "../server-functions/listFiles.ts";
-import type { MyFileType } from "../server-functions/listFiles.ts";
+import { listFiles } from "../listFiles.ts";
+import type { MyFileType } from "../listFiles.ts";
 
 export const useListFiles = (withLastModified = false): MyFileType[] => {
   const [files, setFiles] = useState<MyFileType[]>([]);

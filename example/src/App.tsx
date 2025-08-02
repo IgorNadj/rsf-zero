@@ -1,5 +1,5 @@
 import { useListFiles } from "./hooks/useListFiles.ts";
-import { getHeapUsage, getMemoryUsage, type HeapMemoryUsage } from "./server-functions/memoryUsage.ts";
+import { getHeapUsage, getMemoryUsage, type HeapMemoryUsage } from "./memoryUsage.ts";
 import {useEffect, useState} from "react";
 
 export const App = () => {
