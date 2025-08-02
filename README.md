@@ -15,7 +15,7 @@ npm install rsf-zero
 Then follow [setup](rsf-zero/README.md#Setup).
 
 ## Quick intro to Server Functions
-RSF ([React Server Functions](https://react.dev/reference/rsc/server-functions)) allow you to mark functions to run on the server:
+React Server Functions allow you to mark functions to run on the server:
 
 ```tsx
 'use server';
@@ -35,6 +35,10 @@ export const AddCommentButton = (comment: Comment) =>
 
 ### More examples
 See [/example/src/App.tsx](example/src/App.tsx).
+
+### Reference Docs
+- [React Server Functions](https://react.dev/reference/rsc/server-functions)
+- Note: only the top-level `'use server'` is implemented by this framework.
 
 ## Motivation
 
