@@ -3,7 +3,7 @@
   "description": "A minimal micro-framework with React Server Functions support",
   "author": "Igor Nadj",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/IgorNadj/rsf-zero.git",
@@ -12,7 +12,8 @@
   "scripts": {
     "build": "rm -rf ./dist && tsc",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "prepublishOnly": "npm run build && npm run test && cp ../README.md ."
   },
   "dependencies": {
     "@swc/core": "^1.12.1",
