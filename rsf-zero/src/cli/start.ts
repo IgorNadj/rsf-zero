@@ -6,6 +6,7 @@ import type { Express } from "express";
 import {createActionRoute} from "./start/createActionRoute.ts";
 import {ActionRegistry} from "../types.ts";
 import {RsfZeroOptions} from "../export-types.ts";
+import {debug} from "../debug.ts";
 
 
 export const start = async (options: RsfZeroOptions) => {
@@ -18,7 +19,7 @@ export const start = async (options: RsfZeroOptions) => {
 
   // Client
   const staticPath = path.join(process.cwd(), 'dist/client/');
-  console.log('Serving static files from:', staticPath);
+  debug('Serving static files from: ' + staticPath);
   app.use(express.static('dist/client/', options.startStatic ?? {}));
 
   // Server
