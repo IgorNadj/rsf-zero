@@ -8,13 +8,6 @@ const defaultOptions: RsfZeroOptions = {
   startStatic: {},
 }
 
-/**
- * Locate rsf0-config.js in the current project root (process.cwd()).
- */
-export function findOptionsFile(cwd: string = process.cwd()): string | null {
-  const jsPath = path.join(cwd, 'rsf0-config.js');
-  return fs.existsSync(jsPath) ? jsPath : null;
-}
 
 /**
  * Dynamically import a JS module by absolute file path.
@@ -29,20 +22,23 @@ async function importJsModule(absPath: string): Promise<any> {
  * Returns an empty object if no file is found or on safe failure.
  */
 export async function loadOptions(): Promise<RsfZeroOptions> {
-  const configPath = findOptionsFile();
-  if (!configPath) return {};
+  const configPath = path.join(process.cwd(), 'rsf0-config.js');
+
+  if (!fs.existsSync(configPath)) {
+    debug('No config file found at: ' + configPath);
+    return defaultOptions;
+  }
 
   try {
     const mod = await importJsModule(configPath);
-    const options = (mod && (mod.default ?? mod.options ?? mod.rsf ?? mod.config ?? mod)) as RsfZeroOptions;
+    const options = (mod && mod.default) as RsfZeroOptions;
     if (options && typeof options === 'object') {
-      debug('Options loaded: ' + configPath);
+      debug('Config loaded: ' + configPath);
       return options;
     }
-    return {};
+    throw new Error('Invalid');
   } catch (err) {
-    // Fail soft: log a friendly message and continue with defaults
-    debug('No options file found at: ' + configPath);
-    return defaultOptions;
+    console.log('Rsf Zero Error: Invalid config file at: ' + configPath);
+    throw err;
   }
 }
