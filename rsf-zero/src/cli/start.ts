@@ -5,9 +5,10 @@ import "dotenv/config";
 import type { Express } from "express";
 import {createActionRoute} from "./start/createActionRoute.ts";
 import {ActionRegistry} from "../types.ts";
+import {RsfZeroOptions} from "../export-types.ts";
 
 
-export const start = async () => {
+export const start = async (options: RsfZeroOptions) => {
   const app: Express = express();
   const port = 3000;
 
@@ -18,7 +19,7 @@ export const start = async () => {
   // Client
   const staticPath = path.join(process.cwd(), 'dist/client/');
   console.log('Serving static files from:', staticPath);
-  app.use(express.static('dist/client/'));
+  app.use(express.static('dist/client/', options.startStatic ?? {}));
 
   // Server
   // - create action route

@@ -41,6 +41,9 @@
     "./client": {
       "types": "./dist/lib/client.d.ts",
       "default": "./dist/lib/client.js"
+    },
+    "./server": {
+      "types": "./dist/export-types.d.ts"
     }
   },
   "files": [

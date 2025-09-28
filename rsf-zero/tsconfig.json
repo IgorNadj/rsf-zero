@@ -6,7 +6,8 @@
     "skipLibCheck": true,
     "rewriteRelativeImportExtensions": true,
     "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true
   },
-  "include": ["src"],
-
+  "include": ["src"]
 }
