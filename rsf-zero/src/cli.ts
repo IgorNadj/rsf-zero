@@ -4,7 +4,7 @@ import fs from 'fs';
 import { dev } from './cli/dev.ts';
 import { build } from "./cli/build.ts";
 import { start } from "./cli/start.ts";
-import { loadOptions } from "./options.ts";
+import { loadOptions } from "./utils/options.ts";
 import { banner } from "./cli/utils.ts";
 
 const args = process.argv.slice(2);

@@ -1,6 +1,6 @@
 import * as swc from "@swc/core";
 import {isTopLevelRsfFile} from "../isTopLevelRsfFile.ts";
-import {debug} from "../../debug.ts";
+import {debug} from "../../utils/debug.ts";
 import {Action} from "../../types.ts";
 import {getActionId} from "../getActionId.ts";
 

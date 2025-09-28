@@ -5,11 +5,11 @@ import "dotenv/config";
 import type { Express } from "express";
 import {createActionRoute} from "./start/createActionRoute.ts";
 import {ActionRegistry} from "../types.ts";
-import {RsfZeroOptions} from "../export-types.ts";
-import {debug} from "../debug.ts";
+import {RsfZeroConfig} from "../utils/export-types.ts";
+import {debug} from "../utils/debug.ts";
 
 
-export const start = async (options: RsfZeroOptions) => {
+export const start = async (options: RsfZeroConfig) => {
   const app: Express = express();
   const port = 3000;
 

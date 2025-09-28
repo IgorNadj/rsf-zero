@@ -4,7 +4,7 @@ import viteReact from "@vitejs/plugin-react";
 import type { Express } from "express";
 import {transformRsfForClientPlugin} from "../../transform/client/transformRsfForClientPlugin.ts";
 import {Action} from "../../types.ts";
-import {debug} from "../../debug.ts";
+import {debug} from "../../utils/debug.ts";
 
 export const startVite = async ({
   app,

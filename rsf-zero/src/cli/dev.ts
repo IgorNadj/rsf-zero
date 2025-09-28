@@ -5,7 +5,7 @@ import { startVite } from "./dev/startVite.ts";
 import type { Express } from "express";
 import {Action} from "../types.ts";
 import {createActionRoute} from "./start/createActionRoute.ts";
-import {debug} from "../debug.ts";
+import {debug} from "../utils/debug.ts";
 
 export const dev = async () => {
   const app: Express = express();

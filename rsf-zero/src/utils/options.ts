@@ -2,9 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import { pathToFileURL } from 'url';
 import {debug} from "./debug.ts";
-import { RsfZeroOptions } from "./export-types.ts";
+import { RsfZeroConfig } from "./export-types.ts";
 
-const defaultOptions: RsfZeroOptions = {
+const defaultOptions: RsfZeroConfig = {
   startStatic: {},
 }
 
@@ -21,7 +21,7 @@ async function importJsModule(absPath: string): Promise<any> {
  * Load RSF options from rsf0-config.js at project root.
  * Returns an empty object if no file is found or on safe failure.
  */
-export async function loadOptions(): Promise<RsfZeroOptions> {
+export async function loadOptions(): Promise<RsfZeroConfig> {
   const configPath = path.join(process.cwd(), 'rsf0-config.js');
 
   if (!fs.existsSync(configPath)) {
@@ -31,7 +31,7 @@ export async function loadOptions(): Promise<RsfZeroOptions> {
 
   try {
     const mod = await importJsModule(configPath);
-    const options = (mod && mod.default) as RsfZeroOptions;
+    const options = (mod && mod.default) as RsfZeroConfig;
     if (options && typeof options === 'object') {
       debug('Config loaded: ' + configPath);
       return options;
