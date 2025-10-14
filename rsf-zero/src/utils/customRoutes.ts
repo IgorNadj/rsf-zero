@@ -16,17 +16,22 @@ export const customRoutes = async (options: RsfZeroConfig, app: Express) => {
         : path.join(process.cwd(), routePath);
 
       debug(`Loading custom route from: ${absoluteRoutePath}`);
-      const routeModule = await import(absoluteRoutePath);
+      const routeModule: Record<string, any> = await import(absoluteRoutePath);
 
-      // Route files must export a single function that takes app as first argument
-      const [firstExport] = routeModule;
-
-      if (firstExport && typeof firstExport === 'function') {
-        firstExport(app);
-        debug(`Route loaded successfully: ${routePath}`);
-      } else {
-        throw new Error(`Route file ${routePath} does not export a valid function`);
+      const routeExportNames = Object.keys(routeModule);
+      if (routeExportNames.length !== 1) {
+        throw new Error(`Route file ${routePath} must contain a single export.`);
       }
+
+      const [firstExportName] = routeExportNames;
+      const firstExport = routeModule[firstExportName];
+
+      if (! (typeof firstExport === 'function')) {
+        throw new Error(`Route file ${routePath} must export a function`);
+      }
+
+      firstExport(app);
+      debug(`Route loaded successfully: ${routePath}`);
     }
   }
 

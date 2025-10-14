@@ -61,3 +61,12 @@ See the [superjson docs](https://github.com/flightcontrolhq/superjson?tab=readme
 
 ### Verbose logging
 Prefix commands with `NODE_DEBUG=rsf-zero` to see debug logs, for example: `NODE_DEBUG=rsf-zero yarn build`.
+
+### Note: server files are not built
+This is more of an implementation detail, but starting with node 22.18, TypeScript support is enabled by default. 
+
+Client files need to be built to .js files, as well as static assets, so these end up in /dist.
+
+The action registry also ends up in /dist so as not to pollute the /src dir. 
+
+Server files are run directly as ts files.

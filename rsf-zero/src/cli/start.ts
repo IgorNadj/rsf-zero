@@ -1,8 +1,8 @@
 import path from 'path';
+import type {Express} from "express";
 import express from "express";
 import morgan from "morgan";
 import "dotenv/config";
-import type { Express } from "express";
 import {createActionRoute} from "./start/createActionRoute.ts";
 import {ActionRegistry} from "../types.ts";
 import {RsfZeroConfig} from "../utils/export-types.ts";
@@ -27,7 +27,7 @@ export const start = async (options: RsfZeroConfig) => {
   // - create action route
   const { set: setActionRegistry } = createActionRoute(app);
   // - load actionRegistry dynamically
-  const module: { actionRegistry: ActionRegistry} = await import(path.join(process.cwd(), 'dist/server/actionRegistry.js'));
+  const module: { actionRegistry: ActionRegistry} = await import(path.join(process.cwd(), 'dist/server/actionRegistry.ts'));
   const { actionRegistry } = module;
   // - register action handlers
   setActionRegistry(actionRegistry);

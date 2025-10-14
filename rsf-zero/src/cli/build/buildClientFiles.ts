@@ -7,6 +7,8 @@ import {debug} from "../../utils/debug.ts";
 
 
 export const buildClientFiles = async (rootDir: string, onActionFound: (action: Action) => {}) => {
+  debug(`Building client files.`);
+
   let actionCounter = 0; // for logging
   const _onActionFound = (action: Action) => {
     actionCounter++;
