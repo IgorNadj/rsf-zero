@@ -58,7 +58,8 @@ const callActionFn = async (actionId: string, actionFn: CallableFunction, fnArgs
     debug('Action ' + actionId + ' return value: ', actionFnReturnValue);
     return actionFnReturnValue;
   } catch (e) {
-    throw new Error('Error thrown in action handler ' + actionId + ': ' + e)
+    const errorWithStack = (e instanceof Error) ? e.stack : e;
+    throw new Error('Error thrown in action handler ' + actionId + ': ' + errorWithStack);
   }
 }
 
