@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type {Express} from "express";
 import {parse, stringify} from "superjson";
 import {Action, ActionRegistry} from "../../types.ts";
 import {debug} from "../../utils/debug.ts";
@@ -17,6 +17,7 @@ export const createActionRoute = (app: Express): ReturnType => {
   }
 
   const set = (newActionRegistry: ActionRegistry) => {
+    debug('Setting action registry: ', newActionRegistry);
     actionRegistry = newActionRegistry;
   }
 

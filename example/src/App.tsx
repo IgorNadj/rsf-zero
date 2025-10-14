@@ -1,5 +1,5 @@
-import { useListFiles } from "./hooks/useListFiles.ts";
-import { getHeapUsage, getMemoryUsage, type HeapMemoryUsage } from "./memoryUsage.ts";
+import {useListFiles} from "./hooks/useListFiles.ts";
+import {getHeapUsage, getMemoryUsage, type HeapMemoryUsage} from "./memoryUsage.ts";
 import {useEffect, useState} from "react";
 
 export const App = () => {
@@ -56,6 +56,9 @@ export const App = () => {
         { heapUsage ? ` ${heapUsage.used} / ${heapUsage.total} MB` : ' Loading...' }
       </div>
 
+      <hr/>
+
+      <a href="/api/health">Custom API endpoint</a>
 
     </>
   );
