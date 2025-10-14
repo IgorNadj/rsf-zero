@@ -4,15 +4,16 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "rsf-zero dev",
-    "build": "rsf-zero build",
-    "start": "rsf-zero start"
+    "dev": "NODE_DEBUG=rsf-zero rsf-zero dev",
+    "build": "NODE_DEBUG=rsf-zero rsf-zero build",
+    "start": "NODE_DEBUG=rsf-zero rsf-zero start"
   },
   "dependencies": {
     "rsf-zero": "*"
   },
   "devDependencies": {
     "@tsconfig/vite-react": "^7.0.0",
+    "@types/express": "^5.0.3",
     "@types/node": "^24.1.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",

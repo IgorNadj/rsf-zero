@@ -6,8 +6,10 @@ import type { Express } from "express";
 import {Action} from "../types.ts";
 import {createActionRoute} from "./start/createActionRoute.ts";
 import {debug} from "../utils/debug.ts";
+import {customRoutes} from "../utils/customRoutes.js";
+import {RsfZeroConfig} from "../utils/export-types.js";
 
-export const dev = async () => {
+export const dev = async (options: RsfZeroConfig) => {
   const app: Express = express();
   const port = 3000;
 
@@ -26,6 +28,9 @@ export const dev = async () => {
     addToActionRegistry(action.id, actionFn );
     debug("Loaded action handler: " + action.name);
   }
+
+  // - register custom routes
+  await customRoutes(options, app);
 
   // Serve the frontend
   // - transform any actions found for the frontend

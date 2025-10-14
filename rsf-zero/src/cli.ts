@@ -16,7 +16,7 @@ const options = await loadOptions();
 
 
 if (command === 'dev') {
-  await dev();
+  await dev(options);
 
 } else if (command === 'build') {
   await build();

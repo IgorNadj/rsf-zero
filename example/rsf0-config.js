@@ -8,4 +8,8 @@ export default {
             res.set('X-Custom-Header', 'My-Static-File');
         }
     },
+    routes: [
+        // Example: Load custom Express routes
+        './routes/health.ts'
+    ]
 }

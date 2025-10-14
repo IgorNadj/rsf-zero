@@ -7,6 +7,7 @@ import {createActionRoute} from "./start/createActionRoute.ts";
 import {ActionRegistry} from "../types.ts";
 import {RsfZeroConfig} from "../utils/export-types.ts";
 import {debug} from "../utils/debug.ts";
+import {customRoutes} from "../utils/customRoutes.js";
 
 
 export const start = async (options: RsfZeroConfig) => {
@@ -30,6 +31,8 @@ export const start = async (options: RsfZeroConfig) => {
   const { actionRegistry } = module;
   // - register action handlers
   setActionRegistry(actionRegistry);
+  // - register custom routes
+  await customRoutes(options, app);
 
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
