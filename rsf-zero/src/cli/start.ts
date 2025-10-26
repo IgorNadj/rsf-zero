@@ -18,11 +18,6 @@ export const start = async (options: RsfZeroConfig) => {
 
   app.use(express.json());
 
-  // Client
-  const staticPath = path.join(process.cwd(), 'dist/client/');
-  debug('Serving static files from: ' + staticPath);
-  app.use(express.static('dist/client/', options.startStatic ?? {}));
-
   // Server
   // - create action route
   const { set: setActionRegistry } = createActionRoute(app);
@@ -33,6 +28,18 @@ export const start = async (options: RsfZeroConfig) => {
   setActionRegistry(actionRegistry);
   // - register custom routes
   await customRoutes(options, app);
+
+  // Client
+  const staticPath = path.join(process.cwd(), 'dist/client/');
+  debug('Serving static files from: ' + staticPath);
+  app.use(express.static('dist/client/', options.startStatic ?? {}));
+  // catch-all rule for SPAs with routing
+  app.use((req, res) => {
+    if (req.method === 'GET') {
+      debug('Hit fallback path: ' + req.path);
+      res.sendFile(path.join(process.cwd(), 'dist/client/index.html'));
+    }
+  })
 
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
