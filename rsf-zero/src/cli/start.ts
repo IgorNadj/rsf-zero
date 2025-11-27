@@ -8,6 +8,7 @@ import {ActionRegistry} from "../types.ts";
 import {RsfZeroConfig} from "../utils/export-types.ts";
 import {debug} from "../utils/debug.ts";
 import {customRoutesHook} from "../utils/customRoutesHook.ts";
+import {onStartHook} from "../utils/onStartHook.ts";
 
 
 export const start = async (options: RsfZeroConfig) => {
@@ -40,6 +41,8 @@ export const start = async (options: RsfZeroConfig) => {
       res.sendFile(path.join(process.cwd(), 'dist/client/index.html'));
     }
   })
+
+  await onStartHook(options, app);
 
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

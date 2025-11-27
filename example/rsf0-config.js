@@ -1,5 +1,8 @@
 // Example of configuring Rsf Zero with a config file
 
+// See /docs/configuring.md for full documentation
+
+
 /** @type { import('rsf-zero').RsfZeroConfig } */
 export default {
     startStatic: {
@@ -9,7 +12,7 @@ export default {
         }
     },
     routes: [
-        // Example: Load custom Express routes
         './routes/health.ts'
-    ]
+    ],
+    onStart: './onStart.ts',
 }

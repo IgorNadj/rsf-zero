@@ -6,8 +6,9 @@ import {startVite} from "./dev/startVite.ts";
 import {Action} from "../types.ts";
 import {createActionRoute} from "./start/createActionRoute.ts";
 import {debug} from "../utils/debug.ts";
-import {customRoutesHook} from "../utils/customRoutesHook.js";
-import {RsfZeroConfig} from "../utils/export-types.js";
+import {customRoutesHook} from "../utils/customRoutesHook.ts";
+import {RsfZeroConfig} from "../utils/export-types.ts";
+import {onStartHook} from "../utils/onStartHook.ts";
 
 export const dev = async (options: RsfZeroConfig) => {
   const app: Express = express();
@@ -36,6 +37,8 @@ export const dev = async (options: RsfZeroConfig) => {
   // - transform any actions found for the frontend
   // - and inform the onActionFound callback above
   const vite = await startVite({ app, onActionFound });
+
+  await onStartHook(options, app);
 
   app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
