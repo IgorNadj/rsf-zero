@@ -3,7 +3,7 @@ import path from 'path';
 import {RsfZeroConfig} from "./export-types.js";
 import {debug} from "./debug.ts";
 
-export const customRoutes = async (options: RsfZeroConfig, app: Express) => {
+export const customRoutesHook = async (options: RsfZeroConfig, app: Express) => {
 
   if (options.routes) {
     debug(`Routes config option found`);

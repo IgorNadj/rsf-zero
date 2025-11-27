@@ -7,7 +7,7 @@ import {createActionRoute} from "./start/createActionRoute.ts";
 import {ActionRegistry} from "../types.ts";
 import {RsfZeroConfig} from "../utils/export-types.ts";
 import {debug} from "../utils/debug.ts";
-import {customRoutes} from "../utils/customRoutes.js";
+import {customRoutesHook} from "../utils/customRoutesHook.ts";
 
 
 export const start = async (options: RsfZeroConfig) => {
@@ -27,7 +27,7 @@ export const start = async (options: RsfZeroConfig) => {
   // - register action handlers
   setActionRegistry(actionRegistry);
   // - register custom routes
-  await customRoutes(options, app);
+  await customRoutesHook(options, app);
 
   // Client
   const staticPath = path.join(process.cwd(), 'dist/client/');

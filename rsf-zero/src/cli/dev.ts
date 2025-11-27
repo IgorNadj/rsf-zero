@@ -1,12 +1,12 @@
+import type {Express} from "express";
 import express from "express";
 import morgan from "morgan";
 import "dotenv/config";
-import { startVite } from "./dev/startVite.ts";
-import type { Express } from "express";
+import {startVite} from "./dev/startVite.ts";
 import {Action} from "../types.ts";
 import {createActionRoute} from "./start/createActionRoute.ts";
 import {debug} from "../utils/debug.ts";
-import {customRoutes} from "../utils/customRoutes.js";
+import {customRoutesHook} from "../utils/customRoutesHook.js";
 import {RsfZeroConfig} from "../utils/export-types.js";
 
 export const dev = async (options: RsfZeroConfig) => {
@@ -30,7 +30,7 @@ export const dev = async (options: RsfZeroConfig) => {
   }
 
   // - register custom routes
-  await customRoutes(options, app);
+  await customRoutesHook(options, app);
 
   // Serve the frontend
   // - transform any actions found for the frontend
