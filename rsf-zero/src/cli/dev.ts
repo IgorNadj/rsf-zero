@@ -38,6 +38,7 @@ export const dev = async (options: RsfZeroConfig) => {
   // - and inform the onActionFound callback above
   const vite = await startVite({ app, onActionFound });
 
+  // onStart hook
   await onStartHook(options, app);
 
   app.listen(port, () => {

@@ -42,6 +42,7 @@ export const start = async (options: RsfZeroConfig) => {
     }
   })
 
+  // onStart hook
   await onStartHook(options, app);
 
   app.listen(port, () => {
