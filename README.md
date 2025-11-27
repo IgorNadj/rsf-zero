@@ -29,7 +29,7 @@ export const addComment = async (comment: Comment) => {
 ```tsx
 import { addComment } from './addComment.ts';
 
-export const AddCommentButton = (comment: Comment) => 
+export const AddCommentButton = (comment: Comment) =>
   <Button onClick={() => addComment(comment)} />
 ```
 
@@ -39,6 +39,9 @@ See [/example/src/App.tsx](https://github.com/IgorNadj/rsf-zero/tree/main/exampl
 ### Reference Docs
 - [React Server Functions](https://react.dev/reference/rsc/server-functions)
 - Note: only the top-level `'use server'` is implemented by this framework.
+
+## Configuring
+See [configuring](https://github.com/IgorNadj/rsf-zero/tree/main/docs/configuring.md)
 
 ## Motivation
 
