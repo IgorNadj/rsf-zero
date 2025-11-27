@@ -40,9 +40,6 @@ See [/example/src/App.tsx](https://github.com/IgorNadj/rsf-zero/tree/main/exampl
 - [React Server Functions](https://react.dev/reference/rsc/server-functions)
 - Note: only the top-level `'use server'` is implemented by this framework.
 
-## Configuring
-See [configuring](https://github.com/IgorNadj/rsf-zero/tree/main/docs/configuring.md)
-
 ## Motivation
 
 **RSF Zero** is designed to be a dead simple micro-framework.
@@ -51,4 +48,4 @@ Read the [blog post](https://igornadj.io/blog/2025-08-02-rsf-is-all-you-need/) f
 
 🕊 **Minimal**: Add whatever you want on top, nothing bundled that you don't use\
 🕊 **Simple**: Add `'use server'` to run something on the server, and you're done, nothing new to learn\
-🕊️ **Done**: Instead, spend your spare time sipping a nice coffee or looking at a bird
+🕊️ **Done**: Instead, spend your spare time sipping a tea or looking at a nice bird

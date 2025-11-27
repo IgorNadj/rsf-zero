@@ -8,12 +8,15 @@ import {ActionRegistry} from "../types.ts";
 import {RsfZeroConfig} from "../utils/export-types.ts";
 import {debug} from "../utils/debug.ts";
 import {customRoutesHook} from "../utils/customRoutesHook.ts";
+import {onBeforeStartHook} from "../utils/onBeforeStartHook.ts";
 import {onStartHook} from "../utils/onStartHook.ts";
-
 
 export const start = async (options: RsfZeroConfig) => {
   const app: Express = express();
   const port = 3000;
+
+  // onBeforeStart hook
+  await onBeforeStartHook(options, app);
 
   app.use(morgan("dev"));
 

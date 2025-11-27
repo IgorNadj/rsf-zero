@@ -6,4 +6,5 @@ export type RsfZeroConfig = {
   startStatic?: serveStatic.ServeStaticOptions;
   routes?: string[];
   onStart?: string;
+  onBeforeStart?: string;
 }

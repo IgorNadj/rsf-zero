@@ -26,6 +26,10 @@ export default {
     // File must have a single export that takes app, e.g.:
     // export const onStart = async (app: Express) => { ... }
     onStart: './onStart.ts',
+
+    // Example: hook before anything is done to the express app
+    // Useful for global error logging etc.
+    onBeforeStart: './onBeforeStart.ts',
 }
 ```
 

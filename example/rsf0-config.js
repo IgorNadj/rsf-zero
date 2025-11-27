@@ -15,4 +15,5 @@ export default {
         './routes/health.ts'
     ],
     onStart: './onStart.ts',
+    onBeforeStart: './onBeforeStart.ts',
 }

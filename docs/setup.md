@@ -45,10 +45,10 @@ createRoot(document.getElementById("root")!).render(
 ### Configuring
 
 You can create a `rsf0-config.js` file in the root of your project to configure RSF Zero.
+- See [configuring](https://github.com/IgorNadj/rsf-zero/tree/main/docs/configuring.md)
+
 
 You can also create a `vite-config.js` in the root of your project to configure Vite (used for dev mode only).
-
-See the example for reference.
 
 ## Advanced topics
 
